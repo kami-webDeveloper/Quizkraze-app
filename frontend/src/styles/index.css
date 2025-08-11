@@ -1,0 +1,58 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  @apply scroll-smooth;
+}
+
+.fade-mask {
+  -webkit-mask-image: linear-gradient(to right, black 70%, transparent 100%);
+  mask-image: linear-gradient(to right, black 70%, transparent 100%);
+}
+
+/* Lighten swiper dots in dark mode */
+.dark .swiper-pagination-bullet {
+  background-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.dark .swiper-pagination-bullet-active {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Toast container (wraps the toast) */
+/* Common Toast Style */
+.custom-toast {
+  border-radius: 0.75rem !important; /* rounded-xl */
+  padding: 0.75rem 1.25rem !important; /* py-3 px-5 */
+  font-family: "Inter", sans-serif !important;
+  font-size: 0.95rem !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Success Toast */
+.custom-toast--success {
+  background-color: #e6f6ed !important; /* soft green */
+  color: #13795b !important;
+  border-left: 6px solid #3dbb89 !important;
+}
+
+/* Error Toast */
+.custom-toast--error {
+  background-color: #fdecea !important; /* soft red */
+  color: #a92828 !important;
+  border-left: 6px solid #ff6b6b !important;
+}
+
+/* Responsive Text */
+@media (max-width: 640px) {
+  .custom-toast {
+    font-size: 0.85rem !important;
+    padding: 0.65rem 1rem !important;
+  }
+}
