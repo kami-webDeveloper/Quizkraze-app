@@ -1,17 +1,15 @@
 {
   "version": 2,
-  "builds": [{ "src": "server.js", "use": "@vercel/node" }],
-  "routes": [{ "src": "/(.*)", "dest": "/server.js" }],
-  "env": {
-    "NODE_ENV": "production",
-    "MONGO_URI": "@mongo_uri",
-    "MONGO_PASSWORD": "@mongo_password",
-    "JWT_SECRET": "@jwt_secret",
-    "JWT_EXPIRES": "@jwt_expires",
-    "JWT_COOKIE_EXPIRES": "@jwt_cookie_expires",
-    "EMAIL_FROM": "@email_from",
-    "EMAIL_USER": "@email_user",
-    "APP_PASSWORD": "@app_password",
-    "FRONTEND_URL": "@frontend_url"
-  }
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/server.js"
+    }
+  ]
 }
