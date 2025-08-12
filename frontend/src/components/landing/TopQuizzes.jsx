@@ -68,7 +68,7 @@ export default function TopQuizzes() {
             description={quiz.description}
             difficulty={quiz.difficulty}
             time={quiz.time}
-            onClick={() => navigate(`/quiz/${quiz.id}`)}
+            onClick={() => navigate(`/auth/login`)}
           />
         ))}
       </div>

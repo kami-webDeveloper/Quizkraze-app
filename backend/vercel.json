@@ -1,0 +1,22 @@
+{
+  "verson": 2,
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "server.js"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "PORT": "3000",
+    "MONGO_URI": "@mongo_uri",
+    "MONGO_PASSWORD": "@mongo_password",
+    "FRONTEND_URL": "@frontend_url"
+  }
+}
