@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "https://quizkraze-app.vercel.app/api/$1"
-    }
-  ]
-}
