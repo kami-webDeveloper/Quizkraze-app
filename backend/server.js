@@ -1,6 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
 
+const serverless = require("serverless-http");
 const app = require("./app");
 const connectDB = require("./db");
 
@@ -24,3 +25,5 @@ const port = process.env.PORT || 3000;
     server.close(() => console.log("💥 Process terminated!"));
   });
 })();
+
+module.exports = serverless(app);

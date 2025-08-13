@@ -23,10 +23,11 @@
     "faker": "^5.5.3",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "5.7.0",
-    "mongoose": "7.6.3",
+    "mongodb": "^5.9.2",
+    "mongoose": "^7.8.7",
     "morgan": "^1.10.0",
     "nodemailer": "^7.0.4",
+    "serverless-http": "^3.2.0",
     "xss-clean": "^0.1.4"
   },
   "devDependencies": {
