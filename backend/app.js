@@ -15,39 +15,42 @@ const globalErrorHandler = require("./controllers/errorController");
 
 const app = express();
 
-// first proxy trust for vercel req.ip & rate limiting
+// Trust Vercel’s proxy so req.ip works
 app.set("trust proxy", 1);
 
-// Parsing json
+// Parsing JSON
 app.use(express.json({ limit: "10kb", strict: false }));
 
 // Parsing cookies
 app.use(cookieParser());
 
-// Secure http headers
+// Secure HTTP headers
 app.use(helmet());
 
-// NoSQL injection prevention
-// NOTE: express-mongo-sanitize causes an error in Express >= 4.19
-// because req.query is now a getter-only property
-// so we sanitize only body & params manually
-
+// NoSQL injection prevention (body + params only)
 app.use((req, res, next) => {
   if (req.body) mongosanitize.sanitize(req.body);
   if (req.params) mongosanitize.sanitize(req.params);
-
   next();
 });
 
 // prevent XSS
 // app.use(xss());
 
-// Rate limiting
+// Rate limiting with IP fallback for serverless env
 app.use(
   rateLimit({
     max: 100,
     windowMs: 60 * 60 * 1000,
     message: "Too many requests from this IP, Please try again after 1 hour",
+    keyGenerator: (req) => {
+      return (
+        req.ip ||
+        req.headers["x-forwarded-for"]?.split(",")[0]?.trim() ||
+        "unknown"
+      );
+    },
+    skipFailedRequests: true, // optional
   })
 );
 
@@ -60,7 +63,7 @@ app.use(
   })
 );
 
-// project phase
+// Dev logging
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
@@ -71,11 +74,12 @@ app.use("/api/v1/quizzes", quizRoutes);
 app.use("/api/v1/results", resultsRoutes);
 app.use("/api/v1/questions", questionCommentsRoutes);
 
-// Occurs pathRegexpError
+// 404 handler
 app.use((req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
+// Global error handler
 app.use(globalErrorHandler);
 
 module.exports = app;
