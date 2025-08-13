@@ -16,7 +16,7 @@ import ViewCreatedQuiz from "./components/app/ViewCreatedQuiz";
 import ViewQuizSubmission from "./components/app/ViewQuizSubmission";
 import QuizOverview from "./components/app/QuizOverview";
 import StartQuiz from "./components/app/StartQuiz";
-import EditQuiz from "./components/app/Editquiz";
+import EditQuiz from "./components/app/EditQuiz";
 
 // Lazy loaded pages
 const LoginPage = lazy(() => import("./pages/LoginPage"));
