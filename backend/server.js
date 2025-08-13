@@ -7,11 +7,11 @@ dotenv.config({ path: "./config.env" });
 
 // MongoDB connection
 const port = process.env.PORT || 3000;
-const mongoUri = process.env.MONGO_URI;
 
-const mongoURL = mongoUri.includes("<PASSWORD>")
-  ? mongoUri.replace("<PASSWORD>", process.env.MONGO_PASSWORD)
-  : mongoUri;
+const mongoURL = process.env.MONGO_URI.replace(
+  "<PASSWORD>",
+  process.env.MONGO_PASSWORD
+);
 
 mongoose.connect(mongoURL).then(() => {
   console.log("MongoDB connected");
