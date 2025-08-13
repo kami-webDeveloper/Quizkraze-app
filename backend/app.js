@@ -15,6 +15,9 @@ const globalErrorHandler = require("./controllers/errorController");
 
 const app = express();
 
+// first proxy trust for vercel req.ip & rate limiting
+app.set("trust proxy", 1);
+
 // Parsing json
 app.use(express.json({ limit: "10kb", strict: false }));
 
