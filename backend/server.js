@@ -26,13 +26,11 @@ const connectDB = require("./db");
 //   });
 // })();
 
-app.use(async (req, res, next) => {
-  try {
-    await connectDB();
-    next();
-  } catch (err) {
-    next(err);
-  }
-});
+connectDB()
+  .then(() => console.log("✅ MongoDB connected"))
+  .catch((err) => {
+    console.error("❌ MongoDB connection error:", err);
+    process.exit(1);
+  });
 
 module.exports = serverless(app);
