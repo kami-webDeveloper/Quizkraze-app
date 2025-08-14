@@ -22,7 +22,7 @@ export default function ProtectedRoute() {
         console.log(err);
       }
     }
-  }, [isFetched, user, dispatch, isError]);
+  }, [isFetched, user, dispatch, isError, err]);
 
   if (isPending || !isFetched) return <FullPageSpinner />;
 
