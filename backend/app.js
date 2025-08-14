@@ -27,9 +27,6 @@ app.use(
   })
 );
 
-// Allow all preflight
-app.options("*", cors());
-
 // Parsing JSON
 app.use(express.json({ limit: "10kb", strict: false }));
 
