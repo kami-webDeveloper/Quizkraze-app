@@ -10,6 +10,7 @@ export default function ProtectedRoute() {
   const { data, isPending, isFetched, isError, err } = useAuthInit();
 
   const user = data?.data?.user;
+
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {

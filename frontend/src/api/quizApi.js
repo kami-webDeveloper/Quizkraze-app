@@ -27,7 +27,11 @@ export const getAllQuizzes = ({
   // ✅ Add active filter for public feed only
   if (onlyActive) params.append("isActive", "true");
 
-  return request(`${API_BASE_URL}/api/v1/quizzes?${params.toString()}`);
+  return request(
+    `${API_BASE_URL}/api/v1/quizzes?${params.toString()}`,
+    buildGetOptions,
+    "Failed to fetch quizzes!"
+  );
 };
 
 export const getUserCreatedQuizzes = (id) =>

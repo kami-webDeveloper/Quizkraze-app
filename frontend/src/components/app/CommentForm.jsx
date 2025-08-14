@@ -5,7 +5,6 @@ export default function CommentForm() {
 
   const handlePost = () => {
     if (!comment.trim()) return;
-    console.log("Posted:", comment);
     setComment("");
   };
 

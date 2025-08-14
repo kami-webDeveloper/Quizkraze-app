@@ -12,6 +12,7 @@ const mongosanitize = require("express-mongo-sanitize");
 const rateLimit = require("express-rate-limit");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
+const { ipKeyGenerator } = require("express-rate-limit");
 
 const app = express();
 
@@ -21,7 +22,7 @@ app.set("trust proxy", 1);
 // CORS
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: process.env.FRONTEND_URL?.replace(/\/$/, ""),
     credentials: true,
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
   })
@@ -49,17 +50,11 @@ app.use((req, res, next) => {
 // Rate limiting with IP fallback for serverless env
 app.use(
   rateLimit({
-    max: 100,
     windowMs: 60 * 60 * 1000,
+    max: 100,
     message: "Too many requests from this IP, Please try again after 1 hour",
-    keyGenerator: (req) => {
-      return (
-        req.ip ||
-        req.headers["x-forwarded-for"]?.split(",")[0]?.trim() ||
-        "unknown"
-      );
-    },
-    skipFailedRequests: true, // optional
+    keyGenerator: ipKeyGenerator, // safe for IPv6
+    skipFailedRequests: true,
   })
 );
 
