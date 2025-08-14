@@ -18,6 +18,18 @@ const app = express();
 // Trust Vercel’s proxy so req.ip works
 app.set("trust proxy", 1);
 
+// CORS
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+  })
+);
+
+// Allow all preflight
+app.options("*", cors());
+
 // Parsing JSON
 app.use(express.json({ limit: "10kb", strict: false }));
 
@@ -53,18 +65,6 @@ app.use(
     skipFailedRequests: true, // optional
   })
 );
-
-// CORS
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL,
-    credentials: true,
-    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
-  })
-);
-
-// Allow all preflight
-app.options("*", cors());
 
 // Dev logging
 if (process.env.NODE_ENV === "development") {
