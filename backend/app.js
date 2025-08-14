@@ -13,6 +13,7 @@ const rateLimit = require("express-rate-limit");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 const { ipKeyGenerator } = require("express-rate-limit");
+const path = require("path");
 
 const app = express();
 
@@ -60,11 +61,19 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, "public")));
+
 // Routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/quizzes", quizRoutes);
 app.use("/api/v1/results", resultsRoutes);
 app.use("/api/v1/questions", questionCommentsRoutes);
+
+// Catch react pages
+app.get(/^\/(?!api).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 // 404 handler
 app.use((req, res, next) => {
