@@ -1,36 +1,34 @@
+const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const app = require("./app");
+
+// environment configuration
 dotenv.config({ path: "./config.env" });
 
-const serverless = require("serverless-http");
-const app = require("./app");
-const connectDB = require("./db");
+// MongoDB connection
+const port = process.env.PORT || 3000;
 
-// const port = process.env.PORT || 3000;
+const mongoURL = process.env.MONGO_URI;
 
-// (async () => {
-//   await connectDB();
+mongoose.connect(mongoURL).then(() => {
+  console.log("MongoDB connected");
 
-//   const server = app.listen(port, () => {
-//     console.log(`🚀 Server running on port ${port}`);
-//   });
+  const server = app.listen(port, () =>
+    console.log(`Server running on port ${port}`)
+  );
 
-//   process.on("unhandledRejection", (err) => {
-//     console.error("UNHANDLED REJECTION! 💥 Shutting down...");
-//     console.error(err.name, err.message);
-//     server.close(() => process.exit(1));
-//   });
-
-//   process.on("SIGTERM", () => {
-//     console.log("👋 SIGTERM RECEIVED. Shutting down gracefully");
-//     server.close(() => console.log("💥 Process terminated!"));
-//   });
-// })();
-
-connectDB()
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch((err) => {
-    console.error("❌ MongoDB connection error:", err);
-    process.exit(1);
+  process.on("unhandledRejection", (err) => {
+    console.error("UNHANDLED REJECTION! 💥 Shutting down...");
+    console.error(err.name, err.message);
+    server.close(() => process.exit(1));
   });
 
-module.exports = serverless(app);
+  process.on("SIGTERM", () => {
+    console.log("👋 SIGTERM RECEIVED. Shutting down gracefully");
+    server.close(() => {
+      console.log("💥 Process terminated!");
+    });
+  });
+});
+
+module.exports = mongoURL;
