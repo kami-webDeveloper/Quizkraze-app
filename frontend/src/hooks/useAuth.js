@@ -52,6 +52,7 @@ export function useLogin() {
 
 export function useLogout() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return useMutation({
     mutationFn: api.logout,
@@ -60,7 +61,7 @@ export function useLogout() {
 
       showSuccess("Logged out successfully!");
 
-      window.location.href = "/auth/login";
+      navigate("/auth/login");
     },
     onError: (err) => {
       showError(err.message || "Logout failed!");
