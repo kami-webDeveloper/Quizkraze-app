@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     build: {
-      outDir: "../backend/public",
+      outDir: "dist",
       emptyOutDir: true,
     },
     server: {
