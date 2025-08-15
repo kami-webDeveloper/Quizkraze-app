@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [{ "src": "api/index.js", "use": "@vercel/node" }],
   "routes": [
-    { "src": "/api/(.*)", "dest": "backend/api/index.js" },
+    { "src": "/api/(.*)", "dest": "api/index.js" },
     { "src": "/static/(.*)", "dest": "backend/public/static/$1" },
     { "src": "/assets/(.*)", "dest": "backend/public/assets/$1" },
     { "src": "/favicon.ico", "dest": "backend/public/favicon.ico" },
