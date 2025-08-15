@@ -11,6 +11,10 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
+    build: {
+      outDir: "../backend/public",
+      emptyOutDir: true,
+    },
     server: {
       proxy: env.VITE_API_TARGET?.includes("localhost")
         ? {
