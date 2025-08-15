@@ -1,7 +1,7 @@
 // api/index.js
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const app = require("../backend/app"); // Adjust path to app.js
+const app = require("../app");
 
 // Load environment variables
 dotenv.config({ path: "./config.env" });
