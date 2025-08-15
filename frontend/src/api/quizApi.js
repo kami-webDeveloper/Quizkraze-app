@@ -2,8 +2,6 @@ import buildGetOptions from "../utils/buildGetOption";
 import buildPostOptions from "../utils/buildPostOptions";
 import request from "../utils/requestOperation";
 
-const API_BASE_URL = import.meta.env.DEV ? "http://localhost:5000" : "";
-
 export const getAllQuizzes = ({
   category,
   difficulty,
@@ -28,7 +26,7 @@ export const getAllQuizzes = ({
   if (onlyActive) params.append("isActive", "true");
 
   return request(
-    `${API_BASE_URL}/api/v1/quizzes?${params.toString()}`,
+    `/api/v1/quizzes?${params.toString()}`,
     buildGetOptions,
     "Failed to fetch quizzes!"
   );
@@ -36,23 +34,21 @@ export const getAllQuizzes = ({
 
 export const getUserCreatedQuizzes = (id) =>
   request(
-    `${API_BASE_URL}/api/v1/quizzes/user-created-quizzes/${id}`,
+    `/api/v1/quizzes/user-created-quizzes/${id}`,
     buildGetOptions,
     "Failed to fetch user quizzes"
   );
 
 export const getQuiz = (id, includeAnswers = false) =>
   request(
-    `${API_BASE_URL}/api/v1/quizzes/${id}${
-      includeAnswers ? "?includeAnswers=true" : ""
-    }`,
+    `/api/v1/quizzes/${id}${includeAnswers ? "?includeAnswers=true" : ""}`,
     buildGetOptions,
     "Failed to fetch the quiz!"
   );
 
 export const updateQuiz = (id, data) =>
   request(
-    `${API_BASE_URL}/api/v1/quizzes/${id}`,
+    `/api/v1/quizzes/${id}`,
     {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -64,7 +60,7 @@ export const updateQuiz = (id, data) =>
 
 export const deleteQuiz = (id) =>
   request(
-    `${API_BASE_URL}/api/v1/quizzes/${id}`,
+    `/api/v1/quizzes/${id}`,
     {
       method: "DELETE",
       credentials: "include",
@@ -74,7 +70,7 @@ export const deleteQuiz = (id) =>
 
 export const createQuiz = (data) =>
   request(
-    `${API_BASE_URL}/api/v1/quizzes/create-quiz`,
+    `/api/v1/quizzes/create-quiz`,
     buildPostOptions(data),
     "Failed to create quiz!"
   );

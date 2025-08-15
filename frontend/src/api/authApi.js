@@ -1,25 +1,15 @@
 import buildPostOptions from "../utils/buildPostOptions";
 import request from "../utils/requestOperation";
 
-const API_BASE_URL = import.meta.env.DEV ? "http://localhost:5000" : "";
-
 export const signup = (formData) =>
-  request(
-    `${API_BASE_URL}/api/v1/auth/signup`,
-    buildPostOptions(formData),
-    "Signup failed"
-  );
+  request(`/api/v1/auth/signup`, buildPostOptions(formData), "Signup failed");
 
 export const login = (formData) =>
-  request(
-    `${API_BASE_URL}/api/v1/auth/login`,
-    buildPostOptions(formData),
-    "Login failed"
-  );
+  request(`/api/v1/auth/login`, buildPostOptions(formData), "Login failed");
 
 export const logout = () =>
   request(
-    `${API_BASE_URL}/api/v1/auth/logout`,
+    `/api/v1/auth/logout`,
     {
       method: "GET",
       credentials: "include",
@@ -29,35 +19,35 @@ export const logout = () =>
 
 export const forgotPassword = (formData) =>
   request(
-    `${API_BASE_URL}/api/v1/auth/forgot-password`,
+    `/api/v1/auth/forgot-password`,
     buildPostOptions(formData),
     "Something wrong happened!"
   );
 
 export const resetPassword = (resetToken, formData) =>
   request(
-    `${API_BASE_URL}/api/v1/auth/reset-password/${resetToken}`,
+    `/api/v1/auth/reset-password/${resetToken}`,
     buildPostOptions(formData),
     "Failed to reset password"
   );
 
 export const updatePassword = (formData) =>
   request(
-    `${API_BASE_URL}/api/v1/auth/update-password`,
+    `/api/v1/auth/update-password`,
     buildPostOptions(formData),
     "Failed to update password!"
   );
 
 export const updateUsername = (formData) =>
   request(
-    `${API_BASE_URL}/api/v1/auth/update-me`,
+    `/api/v1/auth/update-me`,
     buildPostOptions(formData),
     "Failed to update username!"
   );
 
 export const getCurrentUser = () =>
   request(
-    `${API_BASE_URL}/api/v1/auth/me`,
+    `/api/v1/auth/me`,
     {
       method: "GET",
       credentials: "include",
