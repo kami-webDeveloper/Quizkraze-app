@@ -65,10 +65,14 @@ exports.submitQuiz = catchAsync(async (req, res, next) => {
 
   // 8. Check time limit and set exceededTime flag
   let exceededTime = false;
+
   if (quiz.timelimit && !isNaN(Number(quiz.timelimit))) {
-    const limitSeconds = Number(quiz.timelimit) * 60;
-    if (timeTaken > limitSeconds) {
-      exceededTime = true;
+    const limitMinutes = Number(quiz.timelimit);
+
+    if (limitMinutes > 0) {
+      const limitSeconds = limitMinutes * 60;
+
+      if (timeTaken > limitSeconds) exceededTime = true;
     }
   }
 
@@ -94,7 +98,16 @@ exports.submitQuiz = catchAsync(async (req, res, next) => {
     })
   );
 
-  // 11. Save the submission, handle duplicate key error gracefully
+  // Prevent duplicate submissions
+  const existingSubmission = await Submission.findOne({
+    user: req.user._id,
+    quiz: req.params.id,
+  });
+
+  if (existingSubmission)
+    return next(new AppError("You have already submitted this quiz", 409));
+
+  // 11. Save the submission
   let newSubmission;
   try {
     newSubmission = await Submission.create({
@@ -107,9 +120,6 @@ exports.submitQuiz = catchAsync(async (req, res, next) => {
       endTime: submittedAt,
     });
   } catch (err) {
-    if (err.code === 11000) {
-      return next(new AppError("You have already submitted this quiz", 409));
-    }
     throw err;
   }
 

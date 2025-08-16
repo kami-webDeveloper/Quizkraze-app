@@ -43,9 +43,13 @@ export default function StartQuiz() {
   useEffect(() => {
     if (!data?.data?.quiz) return;
     const quiz = data.data.quiz;
-    if (quiz.timelimit) {
-      const [min] = quiz.timelimit.split(" ");
-      setTimeLeft(parseInt(min, 10) * 60);
+
+    // Only set countdown if timelimit > 0
+    if (quiz.timelimit && !isNaN(Number(quiz.timelimit))) {
+      const limitMinutes = Number(quiz.timelimit);
+      if (limitMinutes > 0) {
+        setTimeLeft(limitMinutes * 60);
+      }
     }
   }, [data]);
 

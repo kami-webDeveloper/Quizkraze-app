@@ -70,13 +70,20 @@ exports.getQuiz = catchAsync(async (req, res, next) => {
   const includeAnswers = req.query.includeAnswers === "true" && isOwner;
 
   const questionFields = includeAnswers ? "" : "-correctAnswer -explanation";
-  const populatedQuestions = await Question.find({
-    _id: { $in: quiz.questions },
-  })
+
+  const questions = await Question.find({ _id: { $in: quiz.questions } })
     .select(questionFields)
     .lean();
 
-  quiz.questions = populatedQuestions;
+  const ordered = quiz.questions
+    .map((id) => questions.find((q) => String(q._id) === String(id)))
+    .filter(Boolean);
+
+  if (ordered.length !== quiz.questions.length) {
+    return next(new AppError("Some questions are missing from the quiz", 500));
+  }
+
+  quiz.questions = ordered;
 
   res.status(200).json({ status: "success", data: { quiz } });
 });

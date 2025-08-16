@@ -18,6 +18,8 @@ export default function EditQuiz() {
   const { mutateAsync: createQuestions, isPending: isCreatingQuestions } =
     useBatchCreateQuestions();
 
+  console.log(data?.data?.quiz.timelimit);
+
   useEffect(() => {
     if (data?.data?.quiz) {
       const quiz = data.data.quiz;
